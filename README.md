@@ -71,6 +71,53 @@ class WordPressModel(models.Model):
 class optionManager(WordPressManager):
 
 
+class Option(WordPressModel):
+
+
+class User(WordPressModel):
+
+
+class UserMeta(WrodPressModel):
+
+
+class Link(WordPressModel):
+
+
+class PostManager(WordPressManager):
+
+
+class TermTaxonomyRelationship(WordPressModel):
+
+
+class Post(WordPressModel):
+
+class PostMeta(WordPressModel):
+
+class Comment(WordPressModel):
+
+class Term(WordPressModel):
+
+class Taxonomy(WordPressModel):
+  
+  id = models.IntegerField()
+  term = models.ForeignKey()
+  
+  name = models.CharField()
+  description = models.TextField()
+  parent_id = models.IntegerField()
+  count = models.IntegerField()
+  
+  class Meta:
+  
+  def __unicode__(self):
+    try:
+      term = self.term
+    except Term.DoesNotExist:
+      term = ''
+    return u"%s: %s" % (self.name, term)
+  
+  def parent(self):
+    return self._get_object(Taxonomy, self.parent_id)
 ```
 
 ```
