@@ -97,6 +97,23 @@ class Comment(WordPressModel):
 
 class Term(WordPressModel):
 
+  id = models.IntegerField(db_column='term_id', primary_key=True)
+  name = models.CharField(max_length=200)
+  slug = models.CharField(max_length=200)
+  group = models.IntegerField(default=0, db_column='term_group')
+  
+  class Meta:
+    db_table = '%s_terms' % TABLE_PREFIX
+    ordering = ['name']
+    managed = False
+    
+  def __unicode__(self):
+    return self.name
+    
+  @models.permalink
+  def get_absolute_url(self):
+    return ('wp_archive_term', (self.slug, ))
+
 class Taxonomy(WordPressModel):
   
   id = models.IntegerField(db_column='term_taxonomy_id', primary_key=True)
