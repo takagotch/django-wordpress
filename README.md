@@ -99,15 +99,18 @@ class Term(WordPressModel):
 
 class Taxonomy(WordPressModel):
   
-  id = models.IntegerField()
-  term = models.ForeignKey()
+  id = models.IntegerField(db_column='term_taxonomy_id', primary_key=True)
+  term = models.ForeignKey(Term, related_name='taxonomies', blank=True, null=True)
   
-  name = models.CharField()
+  name = models.CharField(max_length=32, db_column='taxonomy')
   description = models.TextField()
-  parent_id = models.IntegerField()
-  count = models.IntegerField()
+  parent_id = models.IntegerField(default=0, db_column='parent')
+  count = models.IntegerField(default=0)
   
   class Meta:
+    db_table = '%s_term_taxonomy' % TABLE_PREFIX
+    ordering = ['name']
+    managed = False
   
   def __unicode__(self):
     try:
